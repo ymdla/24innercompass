@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>关系人格测评 · 39题精准版</title>
+    <title>24型社交模式罗盘 · 39题精准版</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         * {
@@ -13,7 +13,7 @@
         }
         body {
             font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-            background: #f5f7fb;
+            background: #ede9fe;
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -165,7 +165,7 @@
         }
         .radar-container {
             margin: 20px 0 12px;
-            height: 320px;
+            min-height: 360px;
             position: relative;
         }
         .radar-note {
@@ -699,21 +699,116 @@
         const answers = new Array(39).fill(null);
         let chartInstance = null;
         const app = document.getElementById('app');
+        let stage = 'welcome';
 
         function render() {
-            if (currentIndex < 39) {
-                renderQuestion();
-            } else {
-                renderResult();
-            }
-        }
+    if (stage === 'welcome') {
+        renderWelcome();
+    } else if (currentIndex < 39) {
+        renderQuestion();
+    } else {
+        renderResult();
+    }
+}
+function renderWelcome() {
+    let html = `
+        <div class="welcome-screen">
+            <!-- 顶部渐变装饰条 -->
+            <div style="height:6px; background:linear-gradient(90deg, #a78bfa, #8b5cf6, #c4b5fd); border-radius:6px 6px 0 0; margin:-28px -22px 20px -22px;"></div>
+            
+            <h1 style="margin-bottom:6px;">🧭 24型社交模式罗盘</h1>
+            <div class="subhead" style="margin-bottom:12px;">了解你在关系中的样子</div>
+            <p style="font-size:1rem; color:#64748b; margin-bottom:28px; line-height:1.5;">你的“使用说明”，从这里开始。</p>
+            
+            <!-- 痛点卡片区 -->
+            <div style="margin-bottom:28px;">
+                <h3 style="font-size:1.1rem; color:#1e293b; margin-bottom:12px; display:flex; align-items:center; gap:6px;">
+                    <span style="font-size:1.3rem;">🤔</span> 如果你也曾经这样——
+                </h3>
+                <div style="display:flex; flex-direction:column; gap:10px;">
+                    <div style="background:#faf9fe; border:1px solid #ede9fe; border-radius:16px; padding:14px 16px;">
+                        <span style="color:#8b5cf6; font-weight:600; margin-right:8px;">“</span>对话框里的字打了又删，最后只发出去一个表情。<span style="color:#8b5cf6; font-weight:600; margin-left:8px;">”</span>
+                    </div>
+                    <div style="background:#faf9fe; border:1px solid #ede9fe; border-radius:16px; padding:14px 16px;">
+                        <span style="color:#8b5cf6; font-weight:600; margin-right:8px;">“</span>你不主动联系，但对方不联系你的时候，你会在意。<span style="color:#8b5cf6; font-weight:600; margin-left:8px;">”</span>
+                    </div>
+                    <div style="background:#faf9fe; border:1px solid #ede9fe; border-radius:16px; padding:14px 16px;">
+                        <span style="color:#8b5cf6; font-weight:600; margin-right:8px;">“</span>被说“独立”“省心”，但你知道自己只是不习惯开口。<span style="color:#8b5cf6; font-weight:600; margin-left:8px;">”</span>
+                    </div>
+                    <div style="background:#faf9fe; border:1px solid #ede9fe; border-radius:16px; padding:14px 16px;">
+                        <span style="color:#8b5cf6; font-weight:600; margin-right:8px;">“</span>聚会后需要大量独处，却羡慕精力旺盛的人。<span style="color:#8b5cf6; font-weight:600; margin-left:8px;">”</span>
+                    </div>
+                </div>
+                <p style="color:#475569; margin-top:14px; font-size:0.95rem;">这些不是缺点，是你的<strong>社交模式</strong>在起作用。</p>
+            </div>
 
+            <!-- 核心价值三卡片 -->
+            <div style="margin-bottom:28px;">
+                <h3 style="font-size:1.1rem; color:#1e293b; margin-bottom:14px; display:flex; align-items:center; gap:6px;">
+                    <span style="font-size:1.3rem;">🎁</span> 这个罗盘可以帮你
+                </h3>
+                <div style="display:flex; flex-direction:column; gap:12px;">
+                    <div style="background:white; border:1px solid #e2e8f0; border-radius:18px; padding:16px; box-shadow:0 2px 6px rgba(0,0,0,0.02);">
+                        <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+                            <span style="background:#ede9fe; width:28px; height:28px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-weight:600; color:#6d28d9;">①</span>
+                            <span style="font-weight:600; color:#1e293b;">看清反复出现的关系剧本</span>
+                        </div>
+                        <p style="color:#64748b; font-size:0.9rem; margin-left:36px;">为什么总被相似的人吸引？相同的情节为何一再上演？</p>
+                    </div>
+                    <div style="background:white; border:1px solid #e2e8f0; border-radius:18px; padding:16px; box-shadow:0 2px 6px rgba(0,0,0,0.02);">
+                        <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+                            <span style="background:#ede9fe; width:28px; height:28px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-weight:600; color:#6d28d9;">②</span>
+                            <span style="font-weight:600; color:#1e293b;">理解自己的矛盾行为</span>
+                        </div>
+                        <p style="color:#64748b; font-size:0.9rem; margin-left:36px;">想靠近却后退，想表达却沉默——不是意志力问题。</p>
+                    </div>
+                    <div style="background:white; border:1px solid #e2e8f0; border-radius:18px; padding:16px; box-shadow:0 2px 6px rgba(0,0,0,0.02);">
+                        <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+                            <span style="background:#ede9fe; width:28px; height:28px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-weight:600; color:#6d28d9;">③</span>
+                            <span style="font-weight:600; color:#1e293b;">定位你的关系类型</span>
+                        </div>
+                        <p style="color:#64748b; font-size:0.9rem; margin-left:36px;">24种原型 + 独特光谱解读，比星座更懂你的内在模式。</p>
+                    </div>
+                </div>
+                <p style="color:#475569; margin-top:16px; font-size:0.95rem; text-align:center;">不是贴标签，是一份<strong>你和他人之间的“使用说明”</strong>。</p>
+            </div>
+
+            <!-- 底部信息条 -->
+            <div style="background:#f8fafc; border-radius:20px; padding:16px 18px; margin-bottom:24px; border:1px solid #e2e8f0;">
+                <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+                    <span style="font-size:1.4rem;">🔬</span>
+                    <span style="font-weight:600; color:#1e293b;">关于关系罗盘</span>
+                </div>
+                <div style="display:flex; justify-content:space-around; text-align:center;">
+                    <div><span style="font-weight:700; color:#8b5cf6;">39</span><br><span style="font-size:0.75rem; color:#64748b;">情景题</span></div>
+                    <div><span style="font-weight:700; color:#8b5cf6;">15</span><br><span style="font-size:0.75rem; color:#64748b;">维度雷达</span></div>
+                    <div><span style="font-weight:700; color:#8b5cf6;">24</span><br><span style="font-size:0.75rem; color:#64748b;">核心原型</span></div>
+                    <div><span style="font-weight:700; color:#8b5cf6;">5-8</span><br><span style="font-size:0.75rem; color:#64748b;">分钟</span></div>
+                </div>
+            </div>
+
+            <!-- 开始按钮 -->
+            <button class="primary" id="startBtn" style="width:100%; padding:18px; font-size:1.1rem; background:linear-gradient(135deg, #8b5cf6, #7c3aed); border:none;">✨ 开始探索 · 约5分钟</button>
+            
+            <!-- 底部脚注和署名 -->
+            <div style="margin-top:24px; text-align:center;">
+                <div class="footnote" style="margin-top:0;">已有超过 10,000 人在这里看清了自己的关系模式</div>
+                <div style="color:#cbd5e1; font-size:0.7rem; margin-top:10px;">created by ymdla</div>
+            </div>
+        </div>
+    `;
+    app.innerHTML = html;
+    document.getElementById('startBtn').addEventListener('click', () => {
+        stage = 'quiz';
+        render();
+    });
+}
         function renderQuestion() {
             const q = QUESTIONS[currentIndex];
             const selectedOpt = answers[currentIndex];
             const progress = ((currentIndex) / 39 * 100).toFixed(0);
             let html = `
-                <h1>🧭 关系罗盘</h1>
+                <h1>🧭 24型社交模式罗盘</h1>
                 <div class="subhead">第 ${currentIndex+1} / 39 题 · 凭第一感觉选择即可</div>
                 <div class="progress-area">
                     <div class="progress-text"><span>测评进度</span><span>${progress}%</span></div>
@@ -721,6 +816,9 @@
                 </div>
                 <div class="question-card">
                     <div class="question-text">${q.text}</div>
+<div style="color:#94a3b8; font-size:0.8rem; margin-bottom:8px; text-align:right;">
+    ⚡ 没有完全符合的？选那个“虽然不完全像，但比其他三个更接近”的。
+</div>
                     <div class="options">
             `;
             q.options.forEach((optText, idx) => {
@@ -869,7 +967,7 @@
             }
             let html = `
                 <div class="result-screen">
-                    <h1>🧭 你的关系人格</h1>
+                    <h1>🧭 你的社交模式</h1>
                     <div class="type-badge">专属结果</div>
                     <div class="result-type-name">${typeDisplay}</div>
                     <div class="similarity">${subDisplay}</div>
@@ -880,32 +978,63 @@
                         <button class="primary" id="interpretBtn">📖 查看完整解读</button>
                         <button class="restart-btn" id="restartBtn">🔄 重新测试</button>
                     </div>
-                    <div class="footnote">基于39题 · 15维度 · 24种关系人格</div>
+                    <div class="footnote">基于39题 · 15维度 · 24种社交模式</div>
                 </div>
             `;
             app.innerHTML = html;
             const ctx = document.getElementById('radarChart').getContext('2d');
             if (chartInstance) chartInstance.destroy();
-            chartInstance = new Chart(ctx, {
-                type: 'radar',
-                data: {
-                    labels: DIM_LABELS,
-                    datasets: [{
-                        label: '你的维度倾向',
-                        data: radarValues,
-                        backgroundColor: 'rgba(139, 92, 246, 0.2)',
-                        borderColor: '#8b5cf6',
-                        borderWidth: 2.5,
-                        pointBackgroundColor: '#8b5cf6',
-                        pointRadius: 4,
-                    }]
+            const multiLineLabels = DIM_LABELS.map(label => label.split('\n'));
+
+chartInstance = new Chart(ctx, {
+    type: 'radar',
+    data: {
+        labels: multiLineLabels,
+        datasets: [{
+            label: '你的维度倾向',
+            data: radarValues,
+            backgroundColor: 'rgba(139, 92, 246, 0.2)',
+            borderColor: '#8b5cf6',
+            borderWidth: 2.5,
+            pointBackgroundColor: '#8b5cf6',
+            pointRadius: 4,
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        layout: {
+            padding: {
+                top: 10,
+                bottom: 10,
+                left: 10,
+                right: 10
+            }
+        },
+        scales: {
+            r: {
+                min: 0,
+                max: 100,
+                ticks: {
+                    stepSize: 20,
+                    display: false,
+                    backdropPadding: 2
                 },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    scales: { r: { min:0, max:100, ticks:{stepSize:20, display:false}, pointLabels: { font: { size: 11, weight: '500' } } } },
-                    plugins: { legend: { display: false } }
+                pointLabels: {
+                    font: {
+                        size: 10,
+                        weight: '500'
+                    },
+                    color: '#334155',
+                    padding: 8
                 }
-            });
+            }
+        },
+        plugins: {
+            legend: { display: false }
+        }
+    }
+});
             document.getElementById('restartBtn').addEventListener('click', ()=>{
                 currentIndex=0; answers.fill(null); chartInstance?.destroy(); render();
             });
