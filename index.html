@@ -164,10 +164,13 @@
             font-size: 1rem;
         }
         .radar-container {
-            margin: 20px 0 12px;
-            min-height: 360px;
-            position: relative;
-        }
+    margin: 20px 0 12px;
+    min-height: 380px;           /* 再高一点 */
+    position: relative;
+    overflow-x: auto;            /* 手机屏极窄时允许左右滑动查看标签 */
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+}
         .radar-note {
             font-size: 0.85rem;
             color: #64748b;
@@ -1021,13 +1024,13 @@ chartInstance = new Chart(ctx, {
                     backdropPadding: 2
                 },
                 pointLabels: {
-                    font: {
-                        size: 10,
-                        weight: '500'
-                    },
-                    color: '#334155',
-                    padding: 8
-                }
+    font: {
+        size: 9,                 // 手机屏上再小一点
+        weight: '500'
+    },
+    color: '#334155',
+    padding: 12                 // 增大标签与图形的间距
+}
             }
         },
         plugins: {
